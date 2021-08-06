@@ -1,27 +1,15 @@
 package br.edu.ifpb.padroes.modelo;
 
-import java.util.List;
-
 public class Usuario {
-
-    private Long id;
+	
+	private Long id;
 
     private String nome;
-
+    
     private String login;
-
-    private String senha;
-
-    private List<Postagem> postagens;
-
-    public List<Postagem> getPostagens() {
-        return postagens;
-    }
-
-    public void setPostagens(List<Postagem> postagens) {
-        this.postagens = postagens;
-    }
-
+	 
+	private String senha;
+    
     public Long getId() {
         return id;
     }
@@ -37,8 +25,8 @@ public class Usuario {
     public void setNome(String nome) {
         this.nome = nome;
     }
-
-    public String getLogin() {
+ 
+	public String getLogin() {
         return login;
     }
 
