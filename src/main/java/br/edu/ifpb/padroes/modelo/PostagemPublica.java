@@ -3,11 +3,11 @@ package br.edu.ifpb.padroes.modelo;
 public class PostagemPublica extends Postagem {
 	private Postagem postagempublica;
 
-	public Postagem getPostagempublica() {
+	public Postagem getPostagem() {
 		return postagempublica;
 	}
 
-	public void setPostagempublica(Postagem postagempublica) {
+	public void setPostagem(Postagem postagempublica) {
 		this.postagempublica = postagempublica;
 	}
 }

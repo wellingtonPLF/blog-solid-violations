@@ -1,29 +1,36 @@
-package br.edu.ifpb.padroes.service;
+package br.edu.ifpb.padroes.dao;
 
-import br.edu.ifpb.padroes.modelo.Usuario;
-
-import java.sql.*;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.List;
 import java.util.logging.Logger;
 
-public class UsuarioDAO {
+import br.edu.ifpb.padroes.modelo.Postagem;
+import br.edu.ifpb.padroes.modelo.Usuario;
+import br.edu.ifpb.padroes.service.UsuarioServiceImpl;
 
-    private String arquivoBanco;
-    public UsuarioDAO(String arquivoBanco) {
+public abstract class DAO<T> implements DAOinterface<T>{
+	
+	private String arquivoBanco;
+	
+	public DAO(String arquivoBanco) {
         this.arquivoBanco = arquivoBanco;
     }
 
-    private Connection connect() {
-        try (Connection connection = DriverManager.getConnection("jdbc:sqlite:"+this.arquivoBanco)) {
+    public Connection connect() {
+        try (Connection connection = DriverManager.getConnection("jdbc:sqlite:"+arquivoBanco)) {
             Statement statement = connection.createStatement();
 
             //Criando tabela de usuários
             statement.execute("CREATE TABLE IF NOT EXISTS USUARIO( ID INTEGER, NOME VARCHAR, LOGIN VARCHAR, SENHA VARCHAR )");
             statement.execute("INSERT INTO USUARIO( ID, NOME, LOGIN, SENHA) VALUES (1, 'admin', 'admin', '123')");
 
-            //Criando tabela de produtos
-            statement.execute("CREATE TABLE IF NOT EXISTS USUARIO( ID INTEGER, NOME VARCHAR, LOGIN VARCHAR, SENHA VARCHAR )");
-            statement.execute("INSERT INTO USUARIO( ID, NOME, LOGIN, SENHA) VALUES (1, 'admin', 'admin', '123')");
+          //Criando tabela de postagem
+            statement.execute("CREATE TABLE IF NOT EXISTS POSTAGEM( ID INTEGER, TITULO VARCHAR, USUARIO_ID VARCHAR, MENSAGEM VARCHAR, TIPO VARCHAR )");
 
             PreparedStatement stmt = connection.prepareStatement("select * from USUARIO");
             ResultSet resultSet = stmt.executeQuery();
@@ -41,34 +48,23 @@ public class UsuarioDAO {
         }
         return null;
     }
-
-    public void addUsuario(Usuario usuario) {
-        Connection conexao = connect();
-        try (PreparedStatement stmt = conexao.prepareStatement("INSERT INTO USUARIO( ID, NOME, LOGIN, SENHA) VALUES (?, ?, ?, ?)")) {
-            stmt.setLong(1, usuario.getId());
-            stmt.setString(2, usuario.getNome());
-            stmt.setString(3, usuario.getLogin());
-            stmt.setString(4, usuario.getSenha());
-            stmt.execute();
-        } catch (SQLException ex) {
-            this.trataExcecao(ex);
-        }
-    }
-
-    public void updateUsuario(Usuario usuario) {
+    
+    public abstract void add(T modelo);
+    
+    public void update(T modelo) {
         this.trataExcecao(new Exception("Não implementado ainda"));
     }
 
-    public void deleteUsuario(Usuario usuario) {
+    public void delete(T modelo) {
         this.trataExcecao(new Exception("Não implementado ainda"));
     }
 
-    public List<Usuario> listUsuarios() {
+    public List<T> list() {
         this.trataExcecao(new Exception("Não implementado ainda"));
         return null;
     }
 
-    public Usuario getUsuario(Long id) {
+    public T get(Long id) {
         this.trataExcecao(new Exception("Não implementado ainda"));
         return null;
     }
@@ -76,6 +72,4 @@ public class UsuarioDAO {
     public void trataExcecao(Exception ex) {
         Logger.getLogger(UsuarioServiceImpl.class.getName()).warning(ex.getMessage());
     }
-
-
 }

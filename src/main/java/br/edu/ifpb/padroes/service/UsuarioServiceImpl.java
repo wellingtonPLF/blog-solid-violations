@@ -1,5 +1,7 @@
 package br.edu.ifpb.padroes.service;
 
+import br.edu.ifpb.padroes.dao.PostagemDAO;
+import br.edu.ifpb.padroes.dao.UsuarioDAO;
 import br.edu.ifpb.padroes.interf.Ipostagem;
 import br.edu.ifpb.padroes.interf.Iresposta;
 import br.edu.ifpb.padroes.interf.Iuser;
@@ -17,42 +19,42 @@ public class UsuarioServiceImpl implements Iuser, Ipostagem, Iresposta {
 
     @Override
     public void criarUsuario(Usuario usuario) {
-        usuarioDAO.addUsuario(usuario);
+        usuarioDAO.add(usuario);
     }
 
     @Override
     public void atualizarUsuario(Usuario usuario) {
-        usuarioDAO.updateUsuario(usuario);
+        usuarioDAO.update(usuario);
     }
 
     @Override
     public void removerUsuario(Usuario usuario) {
-        usuarioDAO.deleteUsuario(usuario);
+        usuarioDAO.delete(usuario);
     }
 
     @Override
     public List<Usuario> listarUsuarios(Usuario usuario) {
-        return usuarioDAO.listUsuarios();
+        return usuarioDAO.list();
     }
 
     @Override
     public Usuario recuperarUsuario(Long id) {
-        return usuarioDAO.getUsuario(id);
+        return usuarioDAO.get(id);
     }
 
     @Override
     public void adicionarPostagem(Postagem postagem) {
-    	this.postagemDAO.addPostagem(postagem);
+    	this.postagemDAO.add(postagem);
     }
 
     @Override
     public void removerPostagem(Postagem postagem) {
-        this.postagemDAO.deletePostagem(postagem);
+        this.postagemDAO.delete(postagem);
     }
 
     @Override
     public void atualizarPostagem(Postagem postagem) {
-        this.postagemDAO.updatePostagem(postagem);
+        this.postagemDAO.update(postagem);
     }
 
     @Override
@@ -61,7 +63,7 @@ public class UsuarioServiceImpl implements Iuser, Ipostagem, Iresposta {
         postagemResposta.setPostagem(postagem);
         postagemResposta.setUsuario(resposta.getUsuario());
         postagemResposta.setData(new Date());
-        this.postagemDAO.addPostagem(postagemResposta);
+        this.postagemDAO.add(postagemResposta);
     }
 
 }
